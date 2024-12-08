@@ -1,3 +1,7 @@
+<?php
+require "do_login.php"
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -23,24 +27,31 @@
                         <h4>Login</h4>
                     </div>
                     <div class="card-body">
-                        <!-- <form action="#" method="POST"> -->
+                        <form action="login.php" method="POST">
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email</label>
-                                <input type="email" class="form-control" id="email" name="email"
-                                    placeholder="Digite seu e-mail" required>
+                                <label class="form-label">Email</label>
+                                <input type="email" class="form-control" name="email" placeholder="Digite seu e-mail"
+                                    required value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
+                                <?php if ($email_error): ?>
+                                    <p style="color: red;"><?php echo $email_error; ?></p>
+                                <?php endif; ?>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Senha</label>
                                 <input type="password" class="form-control" id="password" name="password"
-                                    placeholder="Digite sua senha" required>
+                                    placeholder="Digite sua senha" required value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>">
+                                <?php if ($password_error): ?>
+                                    <p style="color: red;"><?php echo $password_error; ?></p>
+                                <?php endif; ?>
                             </div>
+
                             <div class="d-grid mb-3">
-                                <a href="../home-page.php" class="btn btn-dark">Entrar</a>
+                                <button type="submit" name="btn-entrar" class="btn btn-dark">Entrar</button>
                             </div>
                             <p class="text-center">
                                 <a href="user-register.php" class="text-decoration-none">Cadastre-se aqui</a>
                             </p>
-                        <!-- </form> -->
+                        </form>
                     </div>
                 </div>
             </div>

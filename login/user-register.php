@@ -14,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($password !== $confirm_password) {
         $is_not_same_password = "As senhas não coincidem.";
     } else {
-        $senha_hash = password_hash($password, PASSWORD_DEFAULT);
+        $password_hash = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO usuario (nome, endereco, cep, numero, email, permissao, cpf, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $permission = 1;
-        $stmt->bind_param("sssisiss", $_POST['name'], $_POST['address'], $_POST['cep'], $_POST['number'], $_POST['email'], $permission, $_POST['cpf'], $senha_hash);
+        $stmt->bind_param("sssisiss", $_POST['name'], $_POST['address'], $_POST['cep'], $_POST['number'], $_POST['email'], $permission, $_POST['cpf'], $password_hash);
 
 
         try {
