@@ -1,3 +1,47 @@
+<?php
+require 'conexao.php';
+
+
+$is_not_same_password = '';
+$cpf_error = '';
+$email_error = '';
+$other_errors = '';
+$register_success = '';
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
+
+    if ($password !== $confirm_password) {
+        $is_not_same_password = "As senhas não coincidem.";
+    } else {
+        $senha_hash = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "INSERT INTO usuario (nome, endereco, cep, numero, email, permissao, cpf, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $permission = 1;
+        $stmt->bind_param("sssisiss", $_POST['name'], $_POST['address'], $_POST['cep'], $_POST['number'], $_POST['email'], $permission, $_POST['cpf'], $senha_hash);
+
+
+        try {
+            $stmt->execute();
+            $register_success = "Usuário cadastrado com sucesso!";
+            $_POST = array();
+        } catch (mysqli_sql_exception $e) {
+            if ($e->getCode() == 1062) {
+                if (strpos($e->getMessage(), 'cpf') !== false) {
+                    $cpf_error = "O CPF informado já está cadastrado.";
+                } else if (strpos($e->getMessage(), 'email') !== false) {
+                    $email_error = "O email informado já está cadastrado.";
+                } else {
+                    $other_errors = "Erro: Ocorreu um problema ao cadastrar.";
+                }
+            } else {
+                $other_errors = "Erro inesperado: " . $e->getMessage();
+            }
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -23,39 +67,61 @@
                         <h4>Cadastro de Usuário</h4>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="POST">
+                        <?php if ($register_success): ?>
+                            <p style="color: green;"><?php echo $register_success; ?></p>
+                        <?php endif; ?>
+                        <form action="user-register.php" method="POST">
                             <div class="mb-3">
-                                <label for="username" class="form-label">Nome de usuário</label>
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Digite seu nome de usuário" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="username" class="form-label">CPF</label>
-                                <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Digite seu CPF" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Endereço de Entrega</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                    placeholder="Digite seu endereço" required>
+                                <label for="name" class="form-label">Nome completo</label>
+                                <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($_POST['name']) ? $_POST['name'] : ''; ?>"
+                                    placeholder="Digite seu nome completo" required>
                             </div>
                             <div class="mb-3">
                                 <label for="email" class="form-label">E-mail</label>
-                                <input type="email" class="form-control" id="email" name="email"
+                                <input type="email" class="form-control" id="email" name="email" value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>"
                                     placeholder="Digite seu e-mail" required>
+                            </div>
+                            <?php if ($email_error): ?>
+                                <p style="color: red;"><?php echo $email_error; ?></p>
+                            <?php endif; ?>
+                            <div class="mb-3">
+                                <label for="cpf" class="form-label">CPF</label>
+                                <input type="text" class="form-control" id="cpf" name="cpf" value="<?php echo isset($_POST['cpf']) ? $_POST['cpf'] : ''; ?>"
+                                    placeholder="Digite seu CPF" required>
+                                <?php if ($cpf_error): ?>
+                                    <p style="color: red;"><?php echo $cpf_error; ?></p>
+                                <?php endif; ?>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Endereço</label>
+                                <input type="text" class="form-control" id="address" name="address" value="<?php echo isset($_POST['address']) ? $_POST['address'] : ''; ?>"
+                                    placeholder="Digite seu endereço" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="number" class="form-label">Número</label>
+                                <input type="text" class="form-control" id="number" name="number" value="<?php echo isset($_POST['number']) ? $_POST['number'] : ''; ?>"
+                                    placeholder="Digite seu endereço" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="cep" class="form-label">CEP</label>
+                                <input type="text" class="form-control" id="cep" name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : ''; ?>"
+                                    placeholder="Digite seu endereço" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Senha</label>
-                                <input type="password" class="form-control" id="password" name="password"
+                                <input type="password" class="form-control" id="password" name="password" value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>"
                                     placeholder="Digite sua senha" required>
                             </div>
                             <div class="mb-3">
-                                <label for="confirmPassword" class="form-label">Confirmar Senha</label>
-                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword"
+                                <label class="form-label">Confirmar Senha</label>
+                                <input type="password" class="form-control" name="confirm_password" value="<?php echo isset($_POST['confirm_password']) ? $_POST['confirm_password'] : ''; ?>"
                                     placeholder="Confirme sua senha" required>
+                                <?php if ($is_not_same_password): ?>
+                                    <p style="color: red;"><?php echo $is_not_same_password; ?></p>
+                                <?php endif; ?>
                             </div>
                             <div class="d-grid">
-                                <button type="submit" class="btn btn-dark">Cadastrar</button>
+                                <button type="submit" class="btn btn-dark" name="btn-cadastrar">Cadastrar</button>
                             </div>
                         </form>
                     </div>
