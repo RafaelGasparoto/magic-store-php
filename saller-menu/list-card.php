@@ -1,3 +1,16 @@
+<?php
+require_once '../conexao.php';
+
+$sql = "SELECT * FROM carta";
+$result = $conn->query($sql);
+$cards = [];
+
+if ($result->num_rows > 0) {
+    $cards = $result->fetch_all(MYSQLI_ASSOC);
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -65,32 +78,20 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><img
-                                src="https://repositorio.sbrauble.com/arquivos/in/magic/238/5f4243882b972-7qj4bk-nvs5g0-19055be5ac0bf0e333b42e1965c78eff.jpg">
-                        </td>
-                        <td>Black Lotus</td>
-                        <td>Descrição</td>
-                        <td>Tipo de Carta</td>
-                        <td class="price">R$ 150,00</td>
-                        <td class="stock">5 unidades</td>
-                        <td>
-                            <button type="submit" class="btn btn-warning">Editar Cadastro</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img
-                                src="https://repositorio.sbrauble.com/arquivos/in/magic/316/5f4243bc98335-4i0tc6-vnmwr6-ed9993850686da44364b1bfb30061c15.jpg">
-                        </td>
-                        <td>Mox Emerald</td>
-                        <td>Descrição</td>
-                        <td>Tipo de Carta</td>
-                        <td class="price">R$ 200,00</td>
-                        <td class="stock">3 unidades</td>
-                        <td>
-                            <button type="submit" class="btn btn-warning">Editar Cadastro</button>
-                        </td>
-                    </tr>
+                    <?php foreach ($cards as $card) : ?>
+                        <tr>
+                            <td><img src=<?php echo $card['imagem_url']; ?>>
+                            </td>
+                            <td><?php echo $card['nome']; ?></td>
+                            <td><?php echo $card['descricao']; ?></td>
+                            <td><?php echo $card['tipo']; ?></td>
+                            <td class="price">R$ <?php echo $card['preco']; ?></td>
+                            <td class="stock"><?php echo $card['quantidade']; ?></td>
+                            <td>
+                                <button type="submit" class="btn btn-warning">Editar Cadastro</button>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
