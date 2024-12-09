@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssidis", $_POST['card_name'], $_POST['description'], $_POST['type'], $_POST['price'], $_POST['quantity'], $_POST['image_url']);
+        $stmt->bind_param("sssdis", $_POST['card_name'], $_POST['description'], $_POST['type'], $_POST['price'], $_POST['quantity'], $_POST['image_url']);
         $stmt->execute();
         $insert_message = 'Carta cadastrada com sucesso!';
     } catch (Exception $error) {
