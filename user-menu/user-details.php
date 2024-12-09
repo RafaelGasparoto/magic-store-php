@@ -1,3 +1,23 @@
+<?php
+require_once '../conexao.php';
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$name = $_SESSION['name'];
+$user_id = $_SESSION['user_id'];
+
+$sql = "SELECT * FROM usuario WHERE id = '$user_id'";
+
+$stmt = $conn->prepare($sql);
+$stmt->execute();
+
+$user = $stmt->get_result()->fetch_assoc();
+
+$complete_address = $user['endereco'] . ', ' . $user['cep'] . ', ' . $user['numero'] . ', ' . $user['bairro'] . ', ' . $user['cidade'] . ', ' . $user['estado'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -44,9 +64,9 @@
                     <div class="card-body">
                         <h5>Informações Pessoais</h5>
                         <ul class="list-group list-group-flush">
-                            <li class="list-group-item"><strong>Nome:</strong> João da Silva</li>
-                            <li class="list-group-item"><strong>E-mail:</strong> joao.silva@email.com</li>
-                            <li class="list-group-item"><strong>Data de Cadastro:</strong> 01/01/2024</li>
+                            <li class="list-group-item"><strong>Nome:</strong> <?php echo $name ?></li>
+                            <li class="list-group-item"><strong>E-mail:</strong> <?php echo $user['email'] ?></li>
+                            <li class="list-group-item"><strong>Endereço:</strong> <?php echo $complete_address ?></li>
                             <li class="nav-item">
                                 <a class="nav-link" href="../logout.php">Sair</a>
                             </li>
