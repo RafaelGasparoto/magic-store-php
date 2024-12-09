@@ -84,12 +84,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <label for="type" class="form-label">Tipo</label>
                                 <select class="form-select" id="type" name="type" required>
                                     <option value="" selected>Selecione o tipo</option>
-                                    <option value="1">Criatura</option>
-                                    <option value="2">Feitiço</option>
-                                    <option value="3">Artefato</option>
-                                    <option value="4">Encantamento</option>
-                                    <option value="5">Planeswalker</option>
-                                    <option value="6">Terreno</option>
+                                    <option value="Criatura">Criatura</option>
+                                    <option value="Feitiço">Feitiço</option>
+                                    <option value="Artefato">Artefato</option>
+                                    <option value="Encantamento">Encantamento</option>
+                                    <option value="Planeswalker">Planeswalker</option>
+                                    <option value="Terreno">Terreno</option>
                                 </select>
                             </div>
                             <div class="mb-3">
