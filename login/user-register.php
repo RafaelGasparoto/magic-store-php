@@ -1,5 +1,5 @@
 <?php
-require 'conexao.php';
+require '../conexao.php';
 
 
 $is_not_same_password = '';
@@ -15,10 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $is_not_same_password = "As senhas não coincidem.";
     } else {
         $password_hash = password_hash($password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO usuario (nome, endereco, cep, numero, email, permissao, cpf, senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO usuario (nome, endereco, cep, numero, email, permissao, cpf, senha, cidade, bairro, estado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
         $permission = 1;
-        $stmt->bind_param("sssisiss", $_POST['name'], $_POST['address'], $_POST['cep'], $_POST['number'], $_POST['email'], $permission, $_POST['cpf'], $password_hash);
+        $stmt->bind_param("sssisisssss", $_POST['name'], $_POST['address'], $_POST['cep'], $_POST['number'], $_POST['email'], $permission, $_POST['cpf'], $password_hash, $_POST['city'], $_POST['district'], $_POST['state']);
 
 
         try {
@@ -103,9 +103,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     placeholder="Digite seu endereço" required>
                             </div>
                             <div class="mb-3">
+                                <label for="district" class="form-label">Bairro</label>
+                                <input type="text" class="form-control" id="district" name="district" value="<?php echo isset($_POST['district']) ? $_POST['district'] : ''; ?>"
+                                    placeholder="Digite seu Bairro" required>
+                            </div>
+                            <div class="mb-3">
                                 <label for="cep" class="form-label">CEP</label>
                                 <input type="text" class="form-control" id="cep" name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : ''; ?>"
-                                    placeholder="Digite seu endereço" required>
+                                    placeholder="Digite seu CEP" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="city" class="form-label">Cidade</label>
+                                <input type="text" class="form-control" id="city" name="city" value="<?php echo isset($_POST['city']) ? $_POST['city'] : ''; ?>"
+                                    placeholder="Digite sua Cidade" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="state" class="form-label">Estado</label>
+                                <input type="text" class="form-control" id="state" name="state" value="<?php echo isset($_POST['state']) ? $_POST['state'] : ''; ?>"
+                                    placeholder="Digite seu Estado" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Senha</label>
