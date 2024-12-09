@@ -1,3 +1,16 @@
+<?php
+require_once 'conexao.php';
+
+$sql = "SELECT * FROM carta WHERE quantidade > 0";
+$result = $conn->query($sql);
+$cards = [];
+
+if ($result->num_rows > 0) {
+    $cards = $result->fetch_all(MYSQLI_ASSOC);
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -54,45 +67,22 @@
     <div class="container mt-4">
         <h1 class="text-center mb-4">Cartas Disponíveis</h1>
         <div class="row">
+            <?php foreach ($cards as $card) : ?>
             <div class="col-md-4 mb-4">
                 <div class="card card-item shadow-sm">
-                    <img src="https://repositorio.sbrauble.com/arquivos/in/magic/238/5f4243882b972-7qj4bk-nvs5g0-19055be5ac0bf0e333b42e1965c78eff.jpg"
+                    <img src=<?= $card['imagem_url'] ?>
                         class="img-fluid">
                     <div class="card-body">
-                        <h5 class="card-title">Black Lotus</h5>
-                        <p class="card-text">Descrição para a carta</p>
-                        <p class="card-text">Tipo carta</p>
-                        <p class="price">R$ 150,00</p>
+                        <h5 class="card-title"><?= $card['nome'] ?></h5>
+                        <p class="card-text"><?= $card['descricao'] ?></p>
+                        <p class="card-text">Tipo: <?= $card['tipo'] ?></p>
+                        <p class="card-text">Quantidade: <?= $card['quantidade'] ?></p>
+                        <p class="price">R$ <?= $card['preco'] ?></p>
                         <a href="#" class="btn btn-primary w-100">Adicionar ao Carrinho</a>
                     </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="card card-item shadow-sm">
-                    <img src="https://repositorio.sbrauble.com/arquivos/in/magic/316/5f4243bc98335-4i0tc6-vnmwr6-ed9993850686da44364b1bfb30061c15.jpg"
-                        class="img-fluid">
-                    <div class="card-body">
-                        <h5 class="card-title">Mox Emerald</h5>
-                        <p class="card-text">Descrição para a carta</p>
-                        <p class="card-text">Tipo carta</p>
-                        <p class="price">R$ 200,00</p>
-                        <a href="#" class="btn btn-primary w-100">Adicionar ao Carrinho</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card card-item shadow-sm">
-                    <img src="https://repositorio.sbrauble.com/arquivos/in/magic/316/5f4243bc98335-4i0tc6-vnmwr6-ed9993850686da44364b1bfb30061c15.jpg"
-                        class="img-fluid">
-                    <div class="card-body">
-                        <h5 class="card-title">Mox Emerald</h5>
-                        <p class="card-text">Descrição para a carta</p>
-                        <p class="card-text">Tipo carta</p>
-                        <p class="price">R$ 200,00</p>
-                        <a href="#" class="btn btn-primary w-100">Adicionar ao Carrinho</a>
-                    </div>
-                </div>
-            </div>
+            <?php endforeach; ?>
         </div>
     </div>
 
