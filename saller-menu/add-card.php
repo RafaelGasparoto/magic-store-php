@@ -1,17 +1,20 @@
 <?php
 require_once '../conexao.php';
-
-$sql = "INSERT INTO carta (nome, descricao, tipo, preco, quantidade, imagem_url) VALUES (?, ?, ?, ?, ?, ?)";
 $error_message = '';
+$insert_message = '';
 
-try {
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssidis", $_POST['card_name'], $_POST['description'], $_POST['type'], $_POST['price'], $_POST['quantity'], $_POST['image_url']);
-    $stmt->execute();
-} catch (Exception $error) {
-    $error_message = $error->getMessage();
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $sql = "INSERT INTO carta (nome, descricao, tipo, preco, quantidade, imagem_url) VALUES (?, ?, ?, ?, ?, ?)";
+
+    try {
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("ssidis", $_POST['card_name'], $_POST['description'], $_POST['type'], $_POST['price'], $_POST['quantity'], $_POST['image_url']);
+        $stmt->execute();
+        $insert_message = 'Carta cadastrada com sucesso!';
+    } catch (Exception $error) {
+        $error_message = $error->getMessage();
+    }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -60,6 +63,9 @@ try {
                         <?php if ($error_message): ?>
                             <p style="color: red;"><?php echo $email_error; ?></p>
                         <?php endif; ?>
+                        <?php if ($insert_message): ?>
+                            <p style="color: green;"><?php echo $insert_message; ?></p>
+                        <?php endif; ?>
                         <form action="add-card.php" method="POST">
                             <div class="mb-3">
                                 <label for="card_name" class="form-label">Nome da Carta</label>
@@ -75,22 +81,22 @@ try {
                                 <label for="type" class="form-label">Tipo</label>
                                 <select class="form-select" id="type" name="type" required>
                                     <option value="" selected>Selecione o tipo</option>
-                                    <option value="Criatura">Criatura</option>
-                                    <option value="Feitiço">Feitiço</option>
-                                    <option value="Artefato">Artefato</option>
-                                    <option value="Encantamento">Encantamento</option>
-                                    <option value="Planeswalker">Planeswalker</option>
-                                    <option value="Terreno">Terreno</option>
+                                    <option value="1">Criatura</option>
+                                    <option value="2">Feitiço</option>
+                                    <option value="3">Artefato</option>
+                                    <option value="4">Encantamento</option>
+                                    <option value="5">Planeswalker</option>
+                                    <option value="6">Terreno</option>
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="estoque" class="form-label">Estoque</label>
-                                <input type="number" class="form-control" id="estoque" name="estoque"
-                                    placeholder="Quantidade em estoque" required>
+                                <label for="quantity" class="form-label">Quantidade</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity"
+                                    placeholder="Quantidade" required>
                             </div>
                             <div class="mb-3">
-                                <label for="image" class="form-label">Imagem URL</label>
-                                <input type="text" class="form-control" id="image" name="image"
+                                <label for="image_url" class="form-label">Imagem URL</label>
+                                <input type="text" class="form-control" id="image_url" name="image_url"
                                     placeholder="URL da imagem">
                             </div>
                             <div class="mb-3">
