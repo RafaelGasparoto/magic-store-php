@@ -1,3 +1,19 @@
+<?php
+require_once '../conexao.php';
+
+$sql = "INSERT INTO carta (nome, descricao, tipo, preco, quantidade, imagem_url) VALUES (?, ?, ?, ?, ?, ?)";
+$error_message = '';
+
+try {
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("ssidis", $_POST['card_name'], $_POST['description'], $_POST['type'], $_POST['price'], $_POST['quantity'], $_POST['image_url']);
+    $stmt->execute();
+} catch (Exception $error) {
+    $error_message = $error->getMessage();
+}
+
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -41,20 +57,23 @@
                         <h4>Cadastro de Cartas</h4>
                     </div>
                     <div class="card-body">
-                        <form action="#" method="POST">
+                        <?php if ($error_message): ?>
+                            <p style="color: red;"><?php echo $email_error; ?></p>
+                        <?php endif; ?>
+                        <form action="add-card.php" method="POST">
                             <div class="mb-3">
-                                <label for="nomeCarta" class="form-label">Nome da Carta</label>
-                                <input type="text" class="form-control" id="nomeCarta" name="nomeCarta"
+                                <label for="card_name" class="form-label">Nome da Carta</label>
+                                <input type="text" class="form-control" id="card_name" name="card_name"
                                     placeholder="Digite o nome da carta" required>
                             </div>
                             <div class="mb-3">
-                                <label for="descricao" class="form-label">Descrição</label>
-                                <textarea class="form-control" id="descricao" name="descricao" rows="3"
+                                <label for="description" class="form-label">Descrição</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"
                                     placeholder="Digite a descrição da carta"></textarea>
                             </div>
                             <div class="mb-3">
-                                <label for="tipo" class="form-label">Tipo</label>
-                                <select class="form-select" id="tipo" name="tipo" required>
+                                <label for="type" class="form-label">Tipo</label>
+                                <select class="form-select" id="type" name="type" required>
                                     <option value="" selected>Selecione o tipo</option>
                                     <option value="Criatura">Criatura</option>
                                     <option value="Feitiço">Feitiço</option>
@@ -70,8 +89,13 @@
                                     placeholder="Quantidade em estoque" required>
                             </div>
                             <div class="mb-3">
-                                <label for="preco" class="form-label">Preço</label>
-                                <input type="text" class="form-control" id="preco" name="preco"
+                                <label for="image" class="form-label">Imagem URL</label>
+                                <input type="text" class="form-control" id="image" name="image"
+                                    placeholder="URL da imagem">
+                            </div>
+                            <div class="mb-3">
+                                <label for="price" class="form-label">Preço</label>
+                                <input type="text" class="form-control" id="price" name="price"
                                     placeholder="Preço da carta (R$)" required>
                             </div>
                             <div class="d-grid">
