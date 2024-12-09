@@ -47,6 +47,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <li class="nav-item">
                         <a class="nav-link" href="sales-history.php">Histórico de Vendas</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>

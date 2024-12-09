@@ -59,6 +59,9 @@ if ($result->num_rows > 0) {
                     <li class="nav-item">
                         <a class="nav-link" href="user-menu/user-details.php">Perfil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -68,20 +71,20 @@ if ($result->num_rows > 0) {
         <h1 class="text-center mb-4">Cartas Disponíveis</h1>
         <div class="row">
             <?php foreach ($cards as $card) : ?>
-            <div class="col-md-4 mb-4">
-                <div class="card card-item shadow-sm">
-                    <img src=<?= $card['imagem_url'] ?>
-                        class="img-fluid">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= $card['nome'] ?></h5>
-                        <p class="card-text"><?= $card['descricao'] ?></p>
-                        <p class="card-text">Tipo: <?= $card['tipo'] ?></p>
-                        <p class="card-text">Quantidade: <?= $card['quantidade'] ?></p>
-                        <p class="price">R$ <?= $card['preco'] ?></p>
-                        <a href="#" class="btn btn-primary w-100">Adicionar ao Carrinho</a>
+                <div class="col-md-4 mb-4">
+                    <div class="card card-item shadow-sm">
+                        <img src=<?= $card['imagem_url'] ?>
+                            class="img-fluid">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= $card['nome'] ?></h5>
+                            <p class="card-text"><?= $card['descricao'] ?></p>
+                            <p class="card-text">Tipo: <?= $card['tipo'] ?></p>
+                            <p class="card-text">Quantidade: <?= $card['quantidade'] ?></p>
+                            <p class="price">R$ <?= $card['preco'] ?></p>
+                            <a href="#" class="btn btn-primary w-100">Adicionar ao Carrinho</a>
+                        </div>
                     </div>
                 </div>
-            </div>
             <?php endforeach; ?>
         </div>
     </div>

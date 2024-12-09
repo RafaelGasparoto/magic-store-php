@@ -26,6 +26,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="user-details.php">Perfil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -44,6 +47,9 @@
                             <li class="list-group-item"><strong>Nome:</strong> João da Silva</li>
                             <li class="list-group-item"><strong>E-mail:</strong> joao.silva@email.com</li>
                             <li class="list-group-item"><strong>Data de Cadastro:</strong> 01/01/2024</li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="../logout.php">Sair</a>
+                            </li>
                         </ul>
 
                     </div>

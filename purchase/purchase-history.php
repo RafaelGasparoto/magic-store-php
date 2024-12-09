@@ -45,6 +45,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="purchase-history.php">Histórico de Compras</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>

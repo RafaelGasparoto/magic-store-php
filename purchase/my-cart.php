@@ -42,6 +42,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../user-menu/user-details.php">Perfil</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>

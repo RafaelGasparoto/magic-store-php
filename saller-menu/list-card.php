@@ -57,6 +57,9 @@ if ($result->num_rows > 0) {
                     <li class="nav-item">
                         <a class="nav-link" href="sales-history.php">Histórico de Vendas</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="../logout.php">Sair</a>
+                    </li>
                 </ul>
             </div>
         </div>
