@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'magic-store';
+$dbname = 'bd-magic-store';
 $usuario = 'root';
 $password = '';
 
