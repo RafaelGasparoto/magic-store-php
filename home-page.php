@@ -81,7 +81,17 @@ if ($result->num_rows > 0) {
                             <p class="card-text">Tipo: <?= $card['tipo'] ?></p>
                             <p class="card-text">Quantidade: <?= $card['quantidade'] ?></p>
                             <p class="price">R$ <?= $card['preco'] ?></p>
-                            <a href="#" class="btn btn-primary w-100">Adicionar ao Carrinho</a>
+                            <form action="add-to-cart.php" method="POST">
+                                <div class="mb-3">
+                                    <label class="form-label">Quantidade</label>
+                                    <input type="number" class="form-control"
+                                        name="quantidade" placeholder="Quantidade" min="1" max="<?= $card['quantidade'] ?>" required>
+                                </div>
+                                <input type="hidden" name="id" value="<?= $card['id'] ?>">
+                                <input type="hidden" name="nome" value="<?= $card['nome'] ?>">
+                                <input type="hidden" name="preco" value="<?= $card['preco'] ?>">
+                                <button type="submit" class="btn btn-primary w-100">Adicionar ao Carrinho</button>
+                            </form>
                         </div>
                     </div>
                 </div>
