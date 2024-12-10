@@ -77,13 +77,13 @@ foreach ($itens_on_cart as $item) {
                         <a class="nav-link active" href="home-page.php">Cartas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="purchase/my-cart.php">Meu Carrinho</a>
+                        <a class="nav-link" href="cart/my-cart.php">Meu Carrinho</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="user-menu/user-details.php">Perfil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../logout.php">Sair</a>
+                        <a class="nav-link" href="logout.php">Sair</a>
                     </li>
                 </ul>
             </div>
@@ -104,7 +104,7 @@ foreach ($itens_on_cart as $item) {
                             <p class="card-text">Tipo: <?= $card['tipo'] ?></p>
                             <p class="card-text">Quantidade: <?= $card['quantidade'] ?></p>
                             <p class="price">R$ <?= $card['preco'] ?></p>
-                            <form action="add-to-cart.php" method="POST">
+                            <form action="cart/add-to-cart.php" method="POST">
                                 <div class="mb-3">
                                     <label class="form-label">Quantidade</label>
                                     <input type="number" class="form-control"

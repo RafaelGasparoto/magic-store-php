@@ -41,7 +41,7 @@ $complete_address = $user['endereco'] . ', ' . $user['cep'] . ', ' . $user['nume
                         <a class="nav-link" href="../home-page.php">Cartas</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="../purchase/my-cart.php">Meu Carrinho</a>
+                        <a class="nav-link" href="../cart/my-cart.php">Meu Carrinho</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" href="user-details.php">Perfil</a>
