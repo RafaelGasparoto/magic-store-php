@@ -20,8 +20,18 @@ if ($result->num_rows > 0) {
     $id_carrinho = $conn->insert_id;
 }
 
+$sql = "SELECT quantidade FROM item_carrinho WHERE id = $id_card AND carrinho_id = $id_carrinho";
+$result = $conn->query($sql);
 
-$sql_item_carrinho = "INSERT INTO item_carrinho (id_carrinho, id_card, quantidade) VALUES ($id_carrinho, $id_card, $quantidade)";
-$conn->query($sql_item_carrinho);
+if ($result->num_rows > 0) {
+    $sql = "UPDATE item_carrinho SET quantidade = $quantidade WHERE id = $id_card AND carrinho_id = $id_carrinho";
+    $conn->query($sql);
+} else {
+    $query = "INSERT INTO item_carrinho (carrinho_id, id_carta, quantidade) VALUES (?, ?, ?)";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('iii', $id_carrinho, $id_card, $quantidade);
+    $stmt->execute();
+}
+
 
 header('location:home-page.php');
