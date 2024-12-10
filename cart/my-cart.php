@@ -1,3 +1,5 @@
+<?php require_once 'get-cart.php'; ?>
+
 <!DOCTYPE html>
 <html>
 
@@ -77,34 +79,25 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td><img src="https://repositorio.sbrauble.com/arquivos/in/magic/238/5f4243882b972-7qj4bk-nvs5g0-19055be5ac0bf0e333b42e1965c78eff.jpg"
-                                alt="Carta 1"></td>
-                        <td>Black Lotus</td>
-                        <td>1</td>
-                        <td class="price">R$ 200,00</td>
-                        <td class="price">R$ 200,00</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm">Remover</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><img src="https://repositorio.sbrauble.com/arquivos/in/magic/316/5f4243bc98335-4i0tc6-vnmwr6-ed9993850686da44364b1bfb30061c15.jpg"
-                                alt="Carta 2"></td>
-                        <td>Mox Emerald</td>
-                        <td>1</td>
-                        <td class="price">R$ 200,00</td>
-                        <td class="price">R$ 200,00</td>
-                        <td>
-                            <button class="btn btn-danger btn-sm">Remover</button>
-                        </td>
-                    </tr>
+                    <?php foreach ($itens_on_cart as $item) : ?>
+                        <tr>
+                            <td><img
+                                    src="<?= $item['imagem_url'] ?>"></td>
+                            <td><?= $item['nome'] ?></td>
+                            <td><?= $item['quantidade'] ?></td>
+                            <td class="price"><?= $item['preco'] ?></td>
+                            <td class="price"><?= $item['preco'] * $item['quantidade'] ?></td>
+                            <td>
+                                <button class="btn btn-danger btn-sm">Remover</button>
+                            </td>
+                        </tr>
+                    <?php endforeach ?>
                 </tbody>
             </table>
         </div>
 
         <div class="mt-4">
-            <h4>Total: <span class="price">R$ 400,00</span></h4>
+            <h4>Total: <span class="price">R$ <?= $total ?></span></h4>
             <button class="btn btn-success btn-lg w-100 mt-3">Confirmar Compra</button>
         </div>
     </div>
