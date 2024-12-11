@@ -56,60 +56,57 @@ $complete_address = $user['endereco'] . ', ' . $user['cep'] . ', ' . $user['nume
 
     <div class="container my-5">
         <div class="row justify-content-center">
-            <div class="col-lg-8">
+            <div class="col-lg">
                 <div class="card shadow">
                     <div class="card-header bg-dark text-white">
-                        <h4>Detalhes do Usuário</h4>
+                        <h4>Informações Pessoais</h4>
                     </div>
                     <div class="card-body">
-                        <h5>Informações Pessoais</h5>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><strong>Nome:</strong> <?php echo $name ?></li>
                             <li class="list-group-item"><strong>E-mail:</strong> <?php echo $user['email'] ?></li>
                             <li class="list-group-item"><strong>Endereço:</strong> <?php echo $complete_address ?></li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="../logout.php">Sair</a>
-                            </li>
                         </ul>
-
                     </div>
                     <div class="card-footer"><button class="btn btn-primary">Editar Perfil</button></div>
                 </div>
                 <div class="mt-5">
-                    <h4>Histórico de Vendas</h4>
-                    <table class="table table-striped table-bordered">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>N° Pedido</th>
-                                <th>Data</th>
-                                <th>Valor Total</th>
-                                <th>Quantidade de Itens</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>15/11/2024</td>
-                                <td>R$ 120,00</td>
-                                <td>5</td>
-                                <td>
-                                    <a href="../purchase/purchase-detail.php"
-                                        class="btn btn-sm btn-primary">Detalhes</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>20/11/2024</td>
-                                <td>R$ 200,00</td>
-                                <td>8</td>
-                                <td>
-                                    <a href="../purchase/purchase-detail.php"
-                                        class="btn btn-sm btn-primary">Detalhes</a>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <h4 class="text-center">Histórico de Compras</h4>
+                    <div class="card-body">
+                        <table class="table table-striped table-bordered">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>N° Pedido</th>
+                                    <th>Data</th>
+                                    <th>Valor Total</th>
+                                    <th>Quantidade de Itens</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>15/11/2024</td>
+                                    <td>R$ 120,00</td>
+                                    <td>5</td>
+                                    <td>
+                                        <a href="../user-menu/purchase-detail.php"
+                                            class="btn btn-sm btn-primary">Detalhes</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>20/11/2024</td>
+                                    <td>R$ 200,00</td>
+                                    <td>8</td>
+                                    <td>
+                                        <a href="../user-menu/purchase-detail.php"
+                                            class="btn btn-sm btn-primary">Detalhes</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
