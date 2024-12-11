@@ -1,5 +1,5 @@
 <?php
-require_once 'conexao.php';
+require_once '../conexao.php';
 session_start();
 
 $id_card = $_POST['id'];
@@ -20,11 +20,14 @@ if ($result->num_rows > 0) {
     $id_carrinho = $conn->insert_id;
 }
 
-$sql = "SELECT quantidade FROM item_carrinho WHERE id = $id_card AND carrinho_id = $id_carrinho";
+$sql = "SELECT id FROM item_carrinho WHERE id_carta = $id_card AND carrinho_id = $id_carrinho";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
-    $sql = "UPDATE item_carrinho SET quantidade = $quantidade WHERE id = $id_card AND carrinho_id = $id_carrinho";
+    $row = $result->fetch_assoc();
+    $id_item_carrinho = $row['id'];
+
+    $sql = "UPDATE item_carrinho SET quantidade = $quantidade WHERE id = $id_item_carrinho";
     $conn->query($sql);
 } else {
     $query = "INSERT INTO item_carrinho (carrinho_id, id_carta, quantidade) VALUES (?, ?, ?)";
@@ -34,4 +37,4 @@ if ($result->num_rows > 0) {
 }
 
 
-header('location:home-page.php');
+header('location:../home-page.php');
