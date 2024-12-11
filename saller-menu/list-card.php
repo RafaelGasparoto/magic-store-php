@@ -91,7 +91,9 @@ if ($result->num_rows > 0) {
                             <td class="price">R$ <?php echo $card['preco']; ?></td>
                             <td class="stock"><?php echo $card['quantidade']; ?></td>
                             <td>
-                                <button type="submit" class="btn btn-warning">Editar Cadastro</button>
+                                <form action="add-card.php?id=<?= $card['id'] ?>" method="POST">
+                                    <button type="submit" class="btn btn-warning">Editar Cadastro</button>
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach; ?>

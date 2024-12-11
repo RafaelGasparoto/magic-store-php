@@ -42,7 +42,52 @@
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Histórico de Vendas</h1>
+        <div class="card shadow mb-4">
+            <div class="card-header bg-dark text-white py-3">
+                <h5 class="card-title">Filtrar Pedidos</h5>
+                <label for="filter_by">Filtar por:</label>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="filter_by" id="filter_by_order" value="pedido">
+                    <label class="form-check-label" for="filter_by_order">Pedido</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="filter_by" id="filter_by_card" value="carta">
+                    <label class="form-check-label" for="filter_by_card">Carta</label>
+                </div>
+            </div>
+            <div class="card-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="startDate">Data Inicial:</label>
+                            <input type="date" class="form-control" id="startDate" name="startDate">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="endDate">Data Final:</label>
+                            <input type="date" class="form-control" id="endDate" name="endDate">
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <label for="type">Tipo de carta:</label>
+                            <select class="form-select" id="type" name="type" required>
+                                <option value="" selected>Selecione o tipo</option>
+                                <option value="Criatura">Criatura</option>
+                                <option value="Feitiço">Feitiço</option>
+                                <option value="Artefato">Artefato</option>
+                                <option value="Encantamento">Encantamento</option>
+                                <option value="Planeswalker">Planeswalker</option>
+                                <option value="Terreno">Terreno</option>
+                            </select>
+                        </div> -->
+
+                        <div class="col align-self-end">
+                            <button type="submit" class="btn btn-primary">Filtrar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+
 
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
