@@ -29,7 +29,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="home-page.php">Magic Cards Store</a>
+            <a class="navbar-brand" href="../home-page.php">Magic Cards Store</a>
             <div>
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -88,7 +88,10 @@
                             <td class="price"><?= $item['preco'] ?></td>
                             <td class="price"><?= $item['preco'] * $item['quantidade'] ?></td>
                             <td>
-                                <button class="btn btn-danger btn-sm">Remover</button>
+                                <form action="../cart/remove-from-cart.php" method="POST">
+                                    <button type="submit" class="btn btn-danger btn-sm">Remover</button>
+                                    <input type="hidden" name="item_id" value="<?= $item['id'] ?>">
+                                </form>
                             </td>
                         </tr>
                     <?php endforeach ?>

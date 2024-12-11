@@ -76,7 +76,7 @@ require_once 'cart/get-selecteds-cards.php';
                                 <div class="mb-3">
                                     <label class="form-label">Quantidade</label>
                                     <input type="number" class="form-control"
-                                        name="quantidade" placeholder="Quantidade" min="1" max="<?= $card['quantidade'] ?>" required value=<?= isset($card['selected_quantity']) ? $card['selected_quantity'] : 1 ?>>
+                                        name="quantidade" placeholder="Quantidade" min="1" max="<?= $card['quantidade'] ?>" required value=<?= isset($card['selected_quantity']) ? $card['selected_quantity'] : 0 ?>>
                                 </div>
                                 <input type="hidden" name="id" value="<?= $card['id'] ?>">
                                 <input type="hidden" name="nome" value="<?= $card['nome'] ?>">

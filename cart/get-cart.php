@@ -10,7 +10,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $id_carrinho = $row['id'];
-    $sql = "SELECT item_carrinho.id_carta, item_carrinho.quantidade, carta.preco, carta.nome, carta.imagem_url FROM item_carrinho " .
+    $sql = "SELECT item_carrinho.id, item_carrinho.id_carta, item_carrinho.quantidade, carta.preco, carta.nome, carta.imagem_url FROM item_carrinho " .
     "JOIN carrinho ON item_carrinho.carrinho_id = carrinho.id " .
     "JOIN carta ON item_carrinho.id_carta = carta.id " . 
     "WHERE carrinho.id = $id_carrinho;";
