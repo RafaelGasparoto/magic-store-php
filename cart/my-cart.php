@@ -53,7 +53,6 @@
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Meu Carrinho</h1>
         <div class="mb-3">
             <label for="tipo" class="form-label">Forma de Pagamento</label>
             <select class="form-select" id="tipo" name="tipo" required>
@@ -101,7 +100,9 @@
 
         <div class="mt-4">
             <h4>Total: <span class="price">R$ <?= $total ?></span></h4>
-            <button class="btn btn-success btn-lg w-100 mt-3">Confirmar Compra</button>
+            <form action="../cart/checkout-purchase.php" method="POST">
+                <button type="submit" class="btn btn-success btn-lg w-100 mt-3">Confirmar Compra</button>
+            </form>
         </div>
     </div>
 
