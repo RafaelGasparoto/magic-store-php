@@ -11,7 +11,7 @@ if ($result->num_rows > 0) {
 
 // Busca itens no carrinho do usuário logado
 $itens_on_cart = [];
-$sql = "SELECT id FROM carrinho WHERE id_usuario = $_SESSION[user_id]";
+$sql = "SELECT id FROM carrinho WHERE usuario_id = $_SESSION[user_id]";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();

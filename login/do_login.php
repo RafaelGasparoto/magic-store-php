@@ -25,13 +25,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // CRIA UM CARRINHO PARA O USUÁRIO
             // CASO JÁ EXISTA RECUPERA O ID E SALVA NA SESSION
-            $sql_carrinho = "SELECT id FROM carrinho WHERE id_usuario = $user[id]";
+            $sql_carrinho = "SELECT id FROM carrinho WHERE usuario_id = $user[id]";
             $result = $conn->query($sql_carrinho);
             if ($result->num_rows > 0) {
                 $row = $result->fetch_assoc();
                 $_SESSION['id_carrinho'] = $row['id'];
             } else {
-                $sql_carrinho = "INSERT INTO carrinho (id_usuario) VALUES ($user[id])";
+                $sql_carrinho = "INSERT INTO carrinho (usuario_id) VALUES ($user[id])";
                 $conn->query($sql_carrinho);
                 $_SESSION['id_carrinho'] = $conn->insert_id;
             }
