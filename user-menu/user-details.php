@@ -1,21 +1,7 @@
 <?php
 require_once '../conexao.php';
-
-if (!isset($_SESSION)) {
-    session_start();
-}
-
-$name = $_SESSION['name'];
-$user_id = $_SESSION['user_id'];
-
-$sql = "SELECT * FROM usuario WHERE id = '$user_id'";
-
-$stmt = $conn->prepare($sql);
-$stmt->execute();
-
-$user = $stmt->get_result()->fetch_assoc();
-
-$complete_address = $user['endereco'] . ', ' . $user['cep'] . ', ' . $user['numero'] . ', ' . $user['bairro'] . ', ' . $user['cidade'] . ', ' . $user['estado'];
+require_once 'get-user-details.php';
+require_once 'get-order-history.php';
 ?>
 
 <!DOCTYPE html>
@@ -71,39 +57,31 @@ $complete_address = $user['endereco'] . ', ' . $user['cep'] . ', ' . $user['nume
                     <div class="card-footer"><button class="btn btn-primary">Editar Perfil</button></div>
                 </div>
                 <div class="mt-5">
-                    <h4 class="text-center">Histórico de Compras</h4>
+                    <h4 class="text-center">Histórico de Pedidos</h4>
                     <div class="card-body">
                         <table class="table table-striped table-bordered">
                             <thead class="table-dark">
                                 <tr>
                                     <th>N° Pedido</th>
                                     <th>Data</th>
+                                    <th>Forma de Pagamento</th>
+                                    <th>Endereço de Entrega</th>
                                     <th>Valor Total</th>
-                                    <th>Quantidade de Itens</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>15/11/2024</td>
-                                    <td>R$ 120,00</td>
-                                    <td>5</td>
-                                    <td>
-                                        <a href="../user-menu/purchase-detail.php"
-                                            class="btn btn-sm btn-primary">Detalhes</a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>20/11/2024</td>
-                                    <td>R$ 200,00</td>
-                                    <td>8</td>
-                                    <td>
-                                        <a href="../user-menu/purchase-detail.php"
-                                            class="btn btn-sm btn-primary">Detalhes</a>
-                                    </td>
-                                </tr>
+                                <?php foreach ($orders as $order) : ?>
+                                    <tr>
+                                        <td>#<?= $order['id'] ?></td>
+                                        <td><?= $order['data'] ?></td>
+                                        <td><?= $order['id_forma_pagamento'] ?></td>
+                                        <td><?= $order['endereco_entrega'] ?></td>
+                                        <td><?= $order['total'] ?></td>
+                                        <td><a href="../user-menu/purchase-detail.php" class="btn btn-sm btn-primary">Detalhes</a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
                             </tbody>
                         </table>
                     </div>

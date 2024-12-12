@@ -43,7 +43,7 @@
                         <a class="nav-link" href="my-cart.php">Meu Carrinho</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="purchase-history.php">Histórico de Compras</a>
+                        <a class="nav-link active" href="purchase-history.php">Histórico de Pedidos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="../logout.php">Sair</a>
@@ -55,7 +55,7 @@
 
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Detalhes da Compra</h1>
+        <h1 class="text-center mb-4">Detalhes do Pedido</h1>
 
         <div class="card mb-4">
             <div class="card-body">
