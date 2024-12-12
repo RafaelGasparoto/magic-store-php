@@ -20,6 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $sql = "INSERT INTO item_pedido (pedido_id, carta_id, quantidade, valor) VALUES ($pedido_id, $item[id_carta], $item[quantidade], $item[preco])";
                 $conn->query($sql);
             }
+
+            $sql = "DELETE FROM item_carrinho WHERE carrinho_id = $_SESSION[id_carrinho]";
+            $conn->query($sql);
         }
     } catch (Exception $error) {
         echo $error->getMessage();
