@@ -15,19 +15,26 @@ require_once 'cart/get-selecteds-cards.php';
             background-color: #f8f9fa;
         }
 
-        .card-item img {
-            max-height: 300px;
-            object-fit: cover;
-        }
-
-        .card-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
         .price {
             color: #28a745;
             font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+        .imagem {
+            margin: auto;
+            object-fit: cover;
+            height: 200px;
+        }
+
+        .card {
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            background-color: #f7f7f7;
         }
     </style>
 </head>
@@ -59,24 +66,22 @@ require_once 'cart/get-selecteds-cards.php';
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Cartas Disponíveis</h1>
         <div class="row">
             <?php foreach ($cards as $card) : ?>
-                <div class="col-md-4 mb-4">
+                <div class="col-md-3 mb-4">
                     <div class="card card-item shadow-sm">
                         <img src=<?= $card['imagem_url'] ?>
-                            class="img-fluid">
+                            class="imagem">
                         <div class="card-body">
-                            <h5 class="card-title"><?= $card['nome'] ?></h5>
-                            <p class="card-text"><?= $card['descricao'] ?></p>
-                            <p class="card-text">Tipo: <?= $card['tipo'] ?></p>
-                            <p class="card-text">Quantidade: <?= $card['quantidade'] ?></p>
-                            <p class="price">R$ <?= $card['preco'] ?></p>
+                            <h3 class="fw-bold"><?= $card['nome'] ?></h3>
+                            <div><span class="fw-medium">Tipo: </span><span class="fw-small"><?= $card['tipo'] ?></span></div>
+                            <div style="font-size: small;"><?= $card['descricao'] ?></div>
+                            <div class="price">R$ <?= $card['preco'] ?></div>
                             <form action="cart/add-to-cart.php" method="POST">
                                 <div class="mb-3">
-                                    <label class="form-label">Quantidade</label>
+                                    <label class="form-label">Disponível: <?= $card['quantidade'] ?></label>
                                     <input type="number" class="form-control"
-                                        name="quantidade" placeholder="Quantidade" min="1" max="<?= $card['quantidade'] ?>" required value=<?= isset($card['selected_quantity']) ? $card['selected_quantity'] : 0 ?>>
+                                        name="quantidade" placeholder="Quantidade" min="0" max="<?= $card['quantidade'] ?>" required value=<?= isset($card['selected_quantity']) ? $card['selected_quantity'] : 0 ?>>
                                 </div>
                                 <input type="hidden" name="id" value="<?= $card['id'] ?>">
                                 <input type="hidden" name="nome" value="<?= $card['nome'] ?>">
