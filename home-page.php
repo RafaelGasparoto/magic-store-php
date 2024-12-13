@@ -40,30 +40,7 @@ require_once 'cart/get-selecteds-cards.php';
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="home-page.php">Magic Cards Store</a>
-            <div>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="saller-menu/list-card.php">Menu Vendedor</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="home-page.php">Cartas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="cart/my-cart.php">Meu Carrinho</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="user-menu/user-details.php">Perfil</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Sair</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php require_once 'header.php'; ?>
 
     <div class="container mt-4">
         <div class="row">

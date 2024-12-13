@@ -19,27 +19,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="../home-page.php">Magic Cards Store</a>
-            <div>
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="list-card.php">Cartas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="add-card.php">Adicionar Carta</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="sales-history.php">Histórico de Vendas</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="../logout.php">Sair</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php require_once '../header.php'; ?>
 
     <div class="container mt-4">
         <div class="card shadow mb-4">
