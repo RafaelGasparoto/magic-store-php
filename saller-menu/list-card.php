@@ -1,7 +1,8 @@
 <?php
 require_once '../conexao.php';
 
-$sql = "SELECT * FROM carta";
+$selected_type = isset($_GET['tipo']) ? $_GET['tipo'] : null;
+$sql = "SELECT * FROM carta" . ($selected_type !== null && $selected_type !== 'Todos' ? " WHERE tipo = '$selected_type'" : '');
 $result = $conn->query($sql);
 $cards = [];
 
@@ -36,16 +37,16 @@ if ($result->num_rows > 0) {
     <?php require_once '../header.php'; ?>
 
     <div class="container mt-4">
-        <form>
+        <form action="list-card.php" method="GET">
             <div class="input-group mb-3">
-                <select class="form-select" id="tipo" name="tipo" required>
-                    <option value="" selected>Todos</option>
-                    <option value="Criatura">Criatura</option>
-                    <option value="Feitiço">Feitiço</option>
-                    <option value="Artefato">Artefato</option>
-                    <option value="Encantamento">Encantamento</option>
-                    <option value="Planeswalker">Planeswalker</option>
-                    <option value="Terreno">Terreno</option>
+                <select class="form-select" id="tipo" name="tipo">
+                    <option value="Todos" <?= $selected_type === null ? 'selected' : '' ?>>Todos</option>
+                    <option value="Criatura" <?= $selected_type === 'Criatura' ? 'selected' : '' ?>>Criatura</option>
+                    <option value="Feitiço" <?= $selected_type === 'Feitiço' ? 'selected' : '' ?>>Feitiço</option>
+                    <option value="Artefato" <?= $selected_type === 'Artefato' ? 'selected' : '' ?>>Artefato</option>
+                    <option value="Encantamento" <?= $selected_type === 'Encantamento' ? 'selected' : '' ?>>Encantamento</option>
+                    <option value="Planeswalker" <?= $selected_type === 'Planeswalker' ? 'selected' : '' ?>>Planeswalker</option>
+                    <option value="Terreno" <?= $selected_type === 'Terreno' ? 'selected' : '' ?>>Terreno</option>
                 </select>
                 <button type="submit" class="btn btn-primary">Filtrar</button>
             </div>
