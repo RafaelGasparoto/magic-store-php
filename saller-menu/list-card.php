@@ -1,7 +1,7 @@
 <?php
 require_once '../conexao.php';
 
-$selected_type = isset($_GET['tipo']) ? $_GET['tipo'] : null;
+$selected_type = isset($_GET['type']) ? $_GET['type'] : null;
 $sql = "SELECT * FROM carta" . ($selected_type !== null && $selected_type !== 'Todos' ? " WHERE tipo = '$selected_type'" : '');
 $result = $conn->query($sql);
 $cards = [];
@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
     <div class="container mt-4">
         <form action="list-card.php" method="GET">
             <div class="input-group mb-3">
-                <select class="form-select" id="tipo" name="tipo">
+                <select class="form-select" id="type" name="type">
                     <option value="Todos" <?= $selected_type === null ? 'selected' : '' ?>>Todos</option>
                     <option value="Criatura" <?= $selected_type === 'Criatura' ? 'selected' : '' ?>>Criatura</option>
                     <option value="Feitiço" <?= $selected_type === 'Feitiço' ? 'selected' : '' ?>>Feitiço</option>
