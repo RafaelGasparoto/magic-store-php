@@ -34,7 +34,6 @@ require_once 'get-order-history.php';
                     <div class="card-footer"><button class="btn btn-primary">Editar Perfil</button></div>
                 </div>
                 <div class="mt-5">
-                    <h4 class="text-center">Histórico de Pedidos</h4>
                     <div class="card-body">
                         <table class="table table-striped table-bordered">
                             <thead class="table-dark">
