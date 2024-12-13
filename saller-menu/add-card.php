@@ -1,18 +1,27 @@
 <?php
 require_once '../conexao.php';
+session_start();
 $error_message = '';
-$insert_message = '';
+$success_message = '';
+$card;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $sql = "INSERT INTO carta (nome, descricao, tipo, preco, quantidade, imagem_url) VALUES (?, ?, ?, ?, ?, ?)";
+    if (isset($_POST['id'])) {
+        $sql = "SELECT * FROM carta WHERE id = $_POST[id]";
+        $result = $conn->query($sql);
+        $card = $result->fetch_assoc();
+    }
+}
 
-    try {
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssdis", $_POST['card_name'], $_POST['description'], $_POST['type'], $_POST['price'], $_POST['quantity'], $_POST['image_url']);
-        $stmt->execute();
-        $insert_message = 'Carta cadastrada com sucesso!';
-    } catch (Exception $error) {
-        $error_message = $error->getMessage();
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    if (isset($_SESSION['error'])) {
+        $error_message = $_SESSION['error'];
+        unset($_SESSION['error']);
+    }
+
+    if (isset($_SESSION['success'])) {
+        $success_message = $_SESSION['success'];
+        unset($_SESSION['success']);
     }
 }
 ?>
@@ -66,49 +75,50 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <?php if ($error_message): ?>
                             <p style="color: red;"><?php echo $email_error; ?></p>
                         <?php endif; ?>
-                        <?php if ($insert_message): ?>
-                            <p style="color: green;"><?php echo $insert_message; ?></p>
+                        <?php if ($success_message): ?>
+                            <p style="color: green;"><?php echo $success_message; ?></p>
                         <?php endif; ?>
-                        <form action="add-card.php" method="POST">
+                        <form action="<?php echo isset($card['id']) ? 'update-card.php' : 'create-card.php'; ?>" method="POST">
                             <div class="mb-3">
                                 <label for="card_name" class="form-label">Nome da Carta</label>
                                 <input type="text" class="form-control" id="card_name" name="card_name"
-                                    placeholder="Digite o nome da carta" required>
+                                    placeholder="Digite o nome da carta" value="<?php echo isset($card['nome']) ? $card['nome'] : ''; ?>" required>
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Descrição</label>
                                 <textarea class="form-control" id="description" name="description" rows="3"
-                                    placeholder="Digite a descrição da carta"></textarea>
+                                    placeholder="Digite a descrição da carta"><?php echo isset($card['descricao']) ? $card['descricao'] : ''; ?></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="type" class="form-label">Tipo</label>
                                 <select class="form-select" id="type" name="type" required>
-                                    <option value="" selected>Selecione o tipo</option>
-                                    <option value="Criatura">Criatura</option>
-                                    <option value="Feitiço">Feitiço</option>
-                                    <option value="Artefato">Artefato</option>
-                                    <option value="Encantamento">Encantamento</option>
-                                    <option value="Planeswalker">Planeswalker</option>
-                                    <option value="Terreno">Terreno</option>
+                                    <option value="" <?= !isset($card['tipo']) ? 'selected' : '' ?>>Selecione o tipo</option>
+                                    <option value="Criatura" <?= isset($card['tipo']) && $card['tipo'] === 'Criatura' ? 'selected' : '' ?>>Criatura</option>
+                                    <option value="Feitiço" <?= isset($card['tipo']) && $card['tipo'] === 'Feitiço' ? 'selected' : '' ?>>Feitiço</option>
+                                    <option value="Artefato" <?= isset($card['tipo']) && $card['tipo'] === 'Artefato' ? 'selected' : '' ?>>Artefato</option>
+                                    <option value="Encantamento" <?= isset($card['tipo']) && $card['tipo'] === 'Encantamento' ? 'selected' : '' ?>>Encantamento</option>
+                                    <option value="Planeswalker" <?= isset($card['tipo']) && $card['tipo'] === 'Planeswalker' ? 'selected' : '' ?>>Planeswalker</option>
+                                    <option value="Terreno" <?= isset($card['tipo']) && $card['tipo'] === 'Terreno' ? 'selected' : '' ?>>Terreno</option>
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="quantity" class="form-label">Quantidade</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity"
-                                    placeholder="Quantidade" required>
+                                    placeholder="Quantidade" required value="<?php echo isset($card['quantidade']) ? $card['quantidade'] : ''; ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="image_url" class="form-label">Imagem URL</label>
                                 <input type="text" class="form-control" id="image_url" name="image_url"
-                                    placeholder="URL da imagem">
+                                    placeholder="URL da imagem" value="<?php echo isset($card['imagem_url']) ? $card['imagem_url'] : ''; ?>">
                             </div>
                             <div class="mb-3">
                                 <label for="price" class="form-label">Preço</label>
                                 <input type="text" class="form-control" id="price" name="price"
-                                    placeholder="Preço da carta (R$)" required>
+                                    placeholder="Preço da carta (R$)" required value="<?php echo isset($card['preco']) ? $card['preco'] : ''; ?>">
                             </div>
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-dark">Cadastrar Carta</button>
+                                <input type="hidden" name="card_id" value="<?php echo isset($card['id']) ? $card['id'] : ''; ?>">
                             </div>
                         </form>
                     </div>
