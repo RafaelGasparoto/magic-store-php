@@ -29,16 +29,6 @@ if ($result->num_rows > 0) {
             height: 70px;
             object-fit: cover;
         }
-
-        .price {
-            color: #28a745;
-            font-weight: bold;
-        }
-
-        .stock {
-            font-size: 0.9rem;
-            color: #6c757d;
-        }
     </style>
 </head>
 
@@ -66,7 +56,20 @@ if ($result->num_rows > 0) {
     </nav>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Cartas Cadastradas</h1>
+        <form>
+            <div class="input-group mb-3">
+                <select class="form-select" id="tipo" name="tipo" required>
+                    <option value="" selected>Todos</option>
+                    <option value="Criatura">Criatura</option>
+                    <option value="Feitiço">Feitiço</option>
+                    <option value="Artefato">Artefato</option>
+                    <option value="Encantamento">Encantamento</option>
+                    <option value="Planeswalker">Planeswalker</option>
+                    <option value="Terreno">Terreno</option>
+                </select>
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+        </form>
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
@@ -76,7 +79,7 @@ if ($result->num_rows > 0) {
                         <th>Descrição</th>
                         <th>Tipo de Carta</th>
                         <th>Preço</th>
-                        <th>Estoque</th>
+                        <th>Quantidade</th>
                         <th></th>
                     </tr>
                 </thead>
