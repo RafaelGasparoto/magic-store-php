@@ -1,3 +1,26 @@
+<?php
+require_once '../conexao.php';
+if (!isset($_GET['id'])) {
+    header('Location: purchase-history.php');
+    exit;
+}
+
+$id_order = $_GET['id'];
+
+$sql = "SELECT * FROM pedido WHERE id = $id_order";
+$result = $conn->query($sql);
+$order = $result->fetch_assoc();
+
+if (!$order) {
+    header('Location: purchase-history.php');
+    exit;
+}
+
+$sql = "SELECT item_pedido.*, carta.nome, carta.imagem_url FROM item_pedido JOIN carta ON item_pedido.carta_id = carta.id WHERE pedido_id = $id_order ";
+$result = $conn->query($sql);
+$order_itens = $result->fetch_all(MYSQLI_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html>
 
@@ -16,11 +39,6 @@
             height: 70px;
             object-fit: cover;
         }
-
-        .price {
-            color: #28a745;
-            font-weight: bold;
-        }
     </style>
 </head>
 
@@ -28,15 +46,13 @@
     <?php require_once '../header.php'; ?>
 
     <div class="container mt-4">
-        <h1 class="text-center mb-4">Detalhes da Compra</h1>
-
         <div class="card mb-4">
             <div class="card-body">
-                <h5 class="card-title">Pedido: #001</h5>
-                <p class="card-text">
-                    <strong>Data:</strong> 29/11/2024<br>
-                    <strong>Valor Total:</strong> <span class="price">R$ 750,00</span>
-                </p>
+                <h5 class="card-title">Pedido: <?php echo $order['id'] ?></h5>
+                <div class="card-text"><span class="fw-bold">Data: </span> <?php echo date('d/m/Y', strtotime($order['data'])) ?> </div>
+                <div class="card-text"><span class="fw-bold">Forma de Pagamento: </span> <?php echo $order['id_forma_pagamento'] ?> </div>
+                <div class="card-text fw-bold"><span>Valor Total: </span> <span class="text-success">R$ <?php echo $order['total'] ?></span> </div>
+                <div class="card-text"><span class="fw-bold">Endereço de Entrega: </span> <?php echo $order['endereco_entrega'] ?> </div>
             </div>
         </div>
 
@@ -52,30 +68,17 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach ($order_itens as $item) : ?>
                     <tr>
-                        <td><img
-                                src="https://repositorio.sbrauble.com/arquivos/in/magic/238/5f4243882b972-7qj4bk-nvs5g0-19055be5ac0bf0e333b42e1965c78eff.jpg">
-                        </td>
-                        <td>Black Lotus</td>
-                        <td>1</td>
-                        <td class="price">R$ 500,00</td>
-                        <td class="price">R$ 500,00</td>
+                        <td><img src=<?php echo $item['imagem_url'] ?>></td>
+                        <td><?php echo $item['nome'] ?></td>
+                        <td><?php echo $item['quantidade'] ?></td>
+                        <td>R$ <?php echo $item['valor'] ?></td>
+                        <td class="fw-bold text-success">R$ <?php echo $item['valor'] * $item['quantidade'] ?></td>
                     </tr>
-                    <tr>
-                        <td><img
-                                src="https://repositorio.sbrauble.com/arquivos/in/magic/238/5f4243882b972-7qj4bk-nvs5g0-19055be5ac0bf0e333b42e1965c78eff.jpg">
-                        </td>
-                        <td>Mox Sapphire</td>
-                        <td>2</td>
-                        <td class="price">R$ 125,00</td>
-                        <td class="price">R$ 250,00</td>
-                    </tr>
+                    <?php endforeach ?>
                 </tbody>
             </table>
-        </div>
-
-        <div class="text-center mt-4">
-            <a href="#" class="btn btn-dark">Comprar Novamente</a>
         </div>
     </div>
 </body>

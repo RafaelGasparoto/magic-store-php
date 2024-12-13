@@ -15,7 +15,7 @@ require_once 'get-order-history.php';
 </head>
 
 <body>
-    <?php require_once '../header.php'; ?>    
+    <?php require_once '../header.php'; ?>
 
     <div class="container my-5">
         <div class="row justify-content-center">
@@ -50,11 +50,15 @@ require_once 'get-order-history.php';
                                 <?php foreach ($orders as $order) : ?>
                                     <tr>
                                         <td>#<?= $order['id'] ?></td>
-                                        <td><?= $order['data'] ?></td>
+                                        <td><?= date('d/m/Y', strtotime($order['data'])) ?></td>
                                         <td><?= $order['id_forma_pagamento'] ?></td>
                                         <td><?= $order['endereco_entrega'] ?></td>
                                         <td><?= $order['total'] ?></td>
-                                        <td><a href="../user-menu/purchase-detail.php" class="btn btn-sm btn-primary">Detalhes</a>
+                                        <td>
+                                            <form action="../user-menu/purchase-detail.php" method="GET">
+                                                <input type="hidden" name="id" value="<?= $order['id'] ?>">
+                                                <button type="submit" class="btn btn-sm btn-primary">Detalhes</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 <?php endforeach ?>
