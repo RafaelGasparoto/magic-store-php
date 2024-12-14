@@ -1,6 +1,5 @@
 <?php
 require_once 'conexao.php';
-session_start();
 
 $sql = "SELECT * FROM carta WHERE quantidade > 0";
 $result = $conn->query($sql);

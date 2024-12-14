@@ -1,6 +1,5 @@
 <?php
 require_once '../conexao.php';
-session_start();
 
 $sql = "INSERT INTO carta (nome, descricao, tipo, preco, quantidade, imagem_url) VALUES (?, ?, ?, ?, ?, ?)";
 

@@ -1,6 +1,5 @@
 <?php 
 require '../conexao.php';
-session_start();
 
 $sql = "UPDATE carta SET nome = ?, descricao = ?, tipo = ?, preco = ?, quantidade = ?, imagem_url = ? WHERE id = ?";
 

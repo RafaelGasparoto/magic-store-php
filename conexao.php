@@ -1,4 +1,5 @@
 <?php
+session_start();
 $host = 'localhost';
 $dbname = 'bd-magic-store';
 $usuario = 'root';

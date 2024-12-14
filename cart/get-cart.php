@@ -1,6 +1,5 @@
 <?php
 require_once '../conexao.php';
-session_start();
 
 // Busca itens no carrinho do usuário logado
 $itens_on_cart = [];

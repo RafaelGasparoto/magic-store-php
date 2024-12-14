@@ -1,6 +1,5 @@
 <?php
 require_once '../conexao.php';
-session_start();
 
 $id_card = $_POST['id'];
 $id_user = $_SESSION['user_id'];
