@@ -49,6 +49,12 @@ if ($filter_by == 'pedido') {
         body {
             background-color: #f8f9fa;
         }
+
+        .table img {
+            width: 50px;
+            height: 70px;
+            object-fit: cover;
+        }
     </style>
 </head>
 
@@ -93,6 +99,7 @@ if ($filter_by == 'pedido') {
                 <thead class="table-dark">
                     <?php if ($filter_by == 'carta') : ?>
                         <tr>
+                            <th></th>
                             <th>Nome da Carta</th>
                             <th>Quantidade</th>
                             <th>Preço Unitário</th>
@@ -121,6 +128,7 @@ if ($filter_by == 'pedido') {
                     <?php endforeach; ?>
                     <?php if ($filter_by == 'carta') foreach ($cards as $card) : ?>
                         <tr>
+                            <td><img src=<?php echo $card['imagem_url'] ?>></td>
                             <td><?php echo $card['nome'] ?></td>
                             <td><?php echo $card['total_quantidade'] ?></td>
                             <td class="fw-bold text-success">R$ <?php echo $card['preco'] ?></td>
