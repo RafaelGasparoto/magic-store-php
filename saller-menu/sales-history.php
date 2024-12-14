@@ -1,5 +1,9 @@
 <?php require_once '../conexao.php';
 
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    $initial_date = isset($_GET['start_date']) ? $_GET['start_date'] : null;
+    $final_date = isset($_GET['end_date']) ? $_GET['end_date'] : null;
+}
 
 if ($initial_date == null) {
     $initial_date = date('Y-m-d', strtotime('-30 days'));
