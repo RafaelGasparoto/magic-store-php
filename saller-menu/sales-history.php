@@ -1,8 +1,12 @@
-<?php require_once '../conexao.php';
+<?php
+require_once '../conexao.php';
+$filter_by;
+$selected_type = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
     $initial_date = isset($_GET['start_date']) ? $_GET['start_date'] : null;
     $final_date = isset($_GET['end_date']) ? $_GET['end_date'] : null;
+    $filter_by = isset($_GET['filter_by']) ? $_GET['filter_by'] : 'pedido';
 }
 
 if ($initial_date == null) {
@@ -12,12 +16,25 @@ if ($final_date == null) {
     $final_date = date('Y-m-d', strtotime('now'));
 }
 
-$sql = "SELECT pedido.*, SUM(item_pedido.quantidade) AS total_quantidade FROM pedido
- JOIN item_pedido ON pedido.id = item_pedido.pedido_id
- WHERE data BETWEEN '$initial_date' AND '$final_date'
- GROUP BY pedido.id;";
-$result = $conn->query($sql);
-$orders = $result->fetch_all(MYSQLI_ASSOC);
+if ($filter_by == 'pedido') {
+    $sql = "SELECT pedido.*, SUM(item_pedido.quantidade) AS total_quantidade FROM pedido
+    JOIN item_pedido ON pedido.id = item_pedido.pedido_id
+    WHERE data BETWEEN '$initial_date' AND '$final_date'
+    GROUP BY pedido.id;";
+    $result = $conn->query($sql);
+    $orders = $result->fetch_all(MYSQLI_ASSOC);
+} else {
+    $sql = "SELECT item_pedido.carta_id, carta.nome, carta.imagem_url, carta.preco, SUM(item_pedido.quantidade) AS total_quantidade 
+    FROM item_pedido
+    JOIN carta ON item_pedido.carta_id = carta.id 
+    JOIN pedido ON item_pedido.pedido_id = pedido.id
+    WHERE pedido.data BETWEEN '$initial_date' AND '$final_date'
+    GROUP BY carta_id";
+    $result = $conn->query($sql);
+    $cards = $result->fetch_all(MYSQLI_ASSOC);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -40,71 +57,74 @@ $orders = $result->fetch_all(MYSQLI_ASSOC);
 
     <div class="container mt-4">
         <div class="card shadow mb-4">
-            <div class="card-header bg-dark text-white py-3">
-                <h5 class="card-title">Filtrar Pedidos</h5>
-                <label for="filter_by">Filtar por:</label>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="filter_by" id="filter_by_order" value="pedido">
-                    <label class="form-check-label" for="filter_by_order">Pedido</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="filter_by" id="filter_by_card" value="carta">
-                    <label class="form-check-label" for="filter_by_card">Carta</label>
-                </div>
-            </div>
-            <div class="card-body">
-                <form action="sales-history.php" method="GET">
+            <form action="sales-history.php" method="GET">
+                <div class="card-body">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
+                            <label for="filter_by">Filtar por:</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="filter_by" id="filter_by_order" value="pedido" <?php echo $filter_by == 'pedido' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="filter_by_order">Pedido</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="filter_by" id="filter_by_card" value="carta" <?php echo $filter_by == 'carta' ? 'checked' : ''; ?>>
+                                <label class="form-check-label" for="filter_by_card">Carta</label>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
                             <label for="start_date">Data Inicial:</label>
-                            <input type="date" class="form-control" id="start_date" name="start_date">
+                            <input type="date" class="form-control" id="start_date" name="start_date" value="<?php echo $initial_date; ?>">
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <label for="end_date">Data Final:</label>
-                            <input type="date" class="form-control" id="end_date" name="end_date">
+                            <input type="date" class="form-control" id="end_date" name="end_date" value="<?php echo $final_date; ?>">
                         </div>
-                        <!-- <div class="col-md-3">
-                            <label for="type">Tipo de carta:</label>
-                            <select class="form-select" id="type" name="type" required>
-                                <option value="" selected>Selecione o tipo</option>
-                                <option value="Criatura">Criatura</option>
-                                <option value="Feitiço">Feitiço</option>
-                                <option value="Artefato">Artefato</option>
-                                <option value="Encantamento">Encantamento</option>
-                                <option value="Planeswalker">Planeswalker</option>
-                                <option value="Terreno">Terreno</option>
-                            </select>
-                        </div> -->
-
-                        <div class="col align-self-end">
+                    </div>
+                    <div class="row text-end">
+                        <div class="col">
                             <button type="submit" class="btn btn-primary">Filtrar</button>
                         </div>
                     </div>
-                </form>
-            </div>
-
+                </div>
+            </form>
         </div>
-
-
         <div class="table-responsive">
             <table class="table table-striped table-hover align-middle">
                 <thead class="table-dark">
-                    <tr>
-                        <th>Pedido</th>
-                        <th>Data</th>
-                        <th>Quantidade</th>
-                        <th>Valor Total</th>
-                        <th></th>
-                    </tr>
+                    <?php if ($filter_by == 'carta') : ?>
+                        <tr>
+                            <th>Nome da Carta</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Preço Total</th>
+                        </tr>
+                    <?php endif; ?>
+                    <?php if ($filter_by == 'pedido') : ?>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Data</th>
+                            <th>Quantidade</th>
+                            <th>Valor Total</th>
+                            <th></th>
+                        </tr>
+                    <?php endif; ?>
                 </thead>
                 <tbody>
-                    <?php foreach ($orders as $order) : ?>
+                    <?php if ($filter_by == 'pedido') foreach ($orders as $order) : ?>
                         <tr>
                             <td>#<?php echo $order['id'] ?></td>
-                            <td><?php echo $order['data'] ?></td>
+                            <td><?php echo date('d/m/Y', strtotime($order['data'])) ?></td>
                             <td><?php echo $order['total_quantidade'] ?></td>
-                            <td class="fw-bold success">R$ <?php echo $order['total'] ?></td>
+                            <td class="fw-bold text-success">R$ <?php echo $order['total'] ?></td>
                             <td><a href="sale-detail.php" class="btn btn-primary">Detalhes</a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    <?php if ($filter_by == 'carta') foreach ($cards as $card) : ?>
+                        <tr>
+                            <td><?php echo $card['nome'] ?></td>
+                            <td><?php echo $card['total_quantidade'] ?></td>
+                            <td class="fw-bold text-success">R$ <?php echo $card['preco'] ?></td>
+                            <td class="fw-bold text-success">R$ <?php echo $card['preco'] * $card['total_quantidade'] ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

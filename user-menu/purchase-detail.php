@@ -46,7 +46,7 @@ $order_itens = $result->fetch_all(MYSQLI_ASSOC);
     <?php require_once '../header.php'; ?>
 
     <div class="container mt-4">
-        <div class="card mb-4">
+        <div class="card shadow mb-4">
             <div class="card-body">
                 <h5 class="card-title">Pedido: <?php echo $order['id'] ?></h5>
                 <div class="card-text"><span class="fw-bold">Data: </span> <?php echo date('d/m/Y', strtotime($order['data'])) ?> </div>
