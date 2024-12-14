@@ -1,3 +1,21 @@
+<?php require_once '../conexao.php';
+
+
+if ($initial_date == null) {
+    $initial_date = date('Y-m-d', strtotime('-30 days'));
+}
+if ($final_date == null) {
+    $final_date = date('Y-m-d', strtotime('now'));
+}
+
+$sql = "SELECT pedido.*, SUM(item_pedido.quantidade) AS total_quantidade FROM pedido
+ JOIN item_pedido ON pedido.id = item_pedido.pedido_id
+ WHERE data BETWEEN '$initial_date' AND '$final_date'
+ GROUP BY pedido.id;";
+$result = $conn->query($sql);
+$orders = $result->fetch_all(MYSQLI_ASSOC);
+?>
+
 <!DOCTYPE html>
 <html>
 
@@ -9,11 +27,6 @@
     <style>
         body {
             background-color: #f8f9fa;
-        }
-
-        .price {
-            color: #28a745;
-            font-weight: bold;
         }
     </style>
 </head>
@@ -36,15 +49,15 @@
                 </div>
             </div>
             <div class="card-body">
-                <form>
+                <form action="sales-history.php" method="GET">
                     <div class="row">
                         <div class="col-md-3">
-                            <label for="startDate">Data Inicial:</label>
-                            <input type="date" class="form-control" id="startDate" name="startDate">
+                            <label for="start_date">Data Inicial:</label>
+                            <input type="date" class="form-control" id="start_date" name="start_date">
                         </div>
                         <div class="col-md-3">
-                            <label for="endDate">Data Final:</label>
-                            <input type="date" class="form-control" id="endDate" name="endDate">
+                            <label for="end_date">Data Final:</label>
+                            <input type="date" class="form-control" id="end_date" name="end_date">
                         </div>
                         <!-- <div class="col-md-3">
                             <label for="type">Tipo de carta:</label>
@@ -75,33 +88,21 @@
                     <tr>
                         <th>Pedido</th>
                         <th>Data</th>
-                        <th>Itens</th>
+                        <th>Quantidade</th>
                         <th>Valor Total</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>#001</td>
-                        <td>29/11/2024</td>
-                        <td>5 cartas</td>
-                        <td class="price">R$ 750,00</td>
-                        <td><a href="sale-detail.php" class="btn btn-primary">Detalhes</a></td>
-                    </tr>
-                    <tr>
-                        <td>#002</td>
-                        <td>28/11/2024</td>
-                        <td>3 cartas</td>
-                        <td class="price">R$ 500,00</td>
-                        <td><button class="btn btn-primary">Detalhes</button></td>
-                    </tr>
-                    <tr>
-                        <td>#003</td>
-                        <td>27/11/2024</td>
-                        <td>7 cartas</td>
-                        <td class="price">R$ 1200,00</td>
-                        <td><button class="btn btn-primary">Detalhes</button></td>
-                    </tr>
+                    <?php foreach ($orders as $order) : ?>
+                        <tr>
+                            <td>#<?php echo $order['id'] ?></td>
+                            <td><?php echo $order['data'] ?></td>
+                            <td><?php echo $order['total_quantidade'] ?></td>
+                            <td class="fw-bold success">R$ <?php echo $order['total'] ?></td>
+                            <td><a href="sale-detail.php" class="btn btn-primary">Detalhes</a></td>
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
