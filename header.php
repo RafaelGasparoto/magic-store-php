@@ -1,15 +1,10 @@
 <?php
-echo $_SERVER['REQUEST_URI'];
-
-if (isset($_SESSION['permissao']) && $_SESSION['permissao'] == 1) {
+if (isset($_SESSION['permission']) && $_SESSION['permission'] == 1) {
     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <div class="container">
     <a class="navbar-brand" href="/magic-store-php/home-page.php">Magic Cards Store</a>
     <div>
         <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-                <a class="nav-link ' . ($_SERVER['REQUEST_URI'] == '/magic-store-php/saller-menu/list-card.php' ? 'active' : '') . '" href="/magic-store-php/saller-menu/list-card.php">Menu Vendedor</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link  ' . ($_SERVER['REQUEST_URI'] == '/magic-store-php/home-page.php' ? 'active' : '') . '" href="/magic-store-php/home-page.php">Cartas</a>
             </li>

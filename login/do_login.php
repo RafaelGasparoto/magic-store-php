@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    $sql = "SELECT id, nome, senha FROM usuario WHERE email = ?";
+    $sql = "SELECT id, nome, senha, permissao FROM usuario WHERE email = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $email);
     $stmt->execute();
@@ -21,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['email'] = $email;
             $_SESSION['name'] = $user['nome'];
-            $_SESSION['permissao'] = $user['permissao'];
+            $_SESSION['permission'] = $user['permissao'];
 
-            if ($_user['permissao'] == 1) {
+            if ($user['permissao'] == 1) {
                 // CRIA UM CARRINHO PARA O USUÁRIO
                 // CASO JÁ EXISTA RECUPERA O ID E SALVA NA SESSION
                 $sql_carrinho = "SELECT id FROM carrinho WHERE usuario_id = $user[id]";
