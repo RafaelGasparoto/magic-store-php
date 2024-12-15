@@ -51,7 +51,7 @@ require_once 'get-order-history.php';
                                     <tr>
                                         <td>#<?= $order['id'] ?></td>
                                         <td><?= date('d/m/Y', strtotime($order['data'])) ?></td>
-                                        <td><?= $order['id_forma_pagamento'] ?></td>
+                                        <td><?= $order['forma_pagamento'] ?></td>
                                         <td><?= $order['endereco_entrega'] ?></td>
                                         <td><?= $order['total'] ?></td>
                                         <td>

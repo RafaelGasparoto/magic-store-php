@@ -7,7 +7,7 @@ if (!isset($_GET['id'])) {
 
 $id_order = $_GET['id'];
 
-$sql = "SELECT * FROM pedido WHERE id = $id_order";
+$sql = "SELECT pedido.*, forma_pagamento.descricao AS forma_pagamento FROM pedido JOIN forma_pagamento ON pedido.forma_pagamento_id = forma_pagamento.id WHERE pedido.id = $id_order";
 $result = $conn->query($sql);
 $order = $result->fetch_assoc();
 
@@ -50,7 +50,7 @@ $order_itens = $result->fetch_all(MYSQLI_ASSOC);
             <div class="card-body">
                 <h5 class="card-title">Pedido: <?php echo $order['id'] ?></h5>
                 <div class="card-text"><span class="fw-bold">Data: </span> <?php echo date('d/m/Y', strtotime($order['data'])) ?> </div>
-                <div class="card-text"><span class="fw-bold">Forma de Pagamento: </span> <?php echo $order['id_forma_pagamento'] ?> </div>
+                <div class="card-text"><span class="fw-bold">Forma de Pagamento: </span> <?php echo $order['forma_pagamento'] ?> </div>
                 <div class="card-text fw-bold"><span>Valor Total: </span> <span class="text-success">R$ <?php echo $order['total'] ?></span> </div>
                 <div class="card-text"><span class="fw-bold">Endereço de Entrega: </span> <?php echo $order['endereco_entrega'] ?> </div>
             </div>
