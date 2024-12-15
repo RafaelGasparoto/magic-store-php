@@ -24,7 +24,7 @@ if (isset($_SESSION['permission']) && $_SESSION['permission'] == 1) {
 } else {
     echo '<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
 <div class="container">
-    <a class="navbar-brand" href="/magic-store-php/home-page.php">Magic Cards Store</a>
+    <a class="navbar-brand" href="/magic-store-php/saller-menu/list-card.php">Magic Cards Store</a>
     <div>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
