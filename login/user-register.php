@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="mb-3">
                                 <label for="cpf" class="form-label">CPF</label>
                                 <input type="text" class="form-control" id="cpf" name="cpf" value="<?php echo isset($_POST['cpf']) ? $_POST['cpf'] : ''; ?>"
-                                    placeholder="Digite seu CPF" required>
+                                    placeholder="Digite seu CPF" maxlength="14" required>
                                 <?php if ($cpf_error): ?>
                                     <p style="color: red;"><?php echo $cpf_error; ?></p>
                                 <?php endif; ?>
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <div class="mb-3">
                                 <label for="cep" class="form-label">CEP</label>
                                 <input type="text" class="form-control" id="cep" name="cep" value="<?php echo isset($_POST['cep']) ? $_POST['cep'] : ''; ?>"
-                                    placeholder="Digite seu CEP" required>
+                                    placeholder="Digite seu CEP" maxlength="9" required>
                             </div>
                             <div class="mb-3">
                                 <label for="city" class="form-label">Cidade</label>
@@ -144,6 +144,30 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
         </div>
     </div>
+    <script>
+        document.getElementById('cpf').addEventListener('input', function() {
+            var cpf = this.value;
+            cpf = cpf.replace(/\D/g, '');
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d)/, '$1.$2');
+            cpf = cpf.replace(/(\d{3})(\d{2})/, '$1-$2');
+            this.value = cpf;
+        });
+
+        document.getElementById('cep').addEventListener('input', function() {
+            var cep = this.value;
+            cep = cep.replace(/\D/g, '');
+            cep = cep.replace(/(\d{5})(\d)/, '$1-$2');
+            this.value = cep;
+        });
+
+        document.getElementById('number').addEventListener('input', function() {
+            var cep = this.value;
+            cep = cep.replace(/\D/g, '');
+            this.value = cep;
+        });
+    </script>
+
 </body>
 
 </html>
