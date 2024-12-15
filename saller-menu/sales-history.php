@@ -123,7 +123,12 @@ if ($filter_by == 'pedido') {
                             <td><?php echo date('d/m/Y', strtotime($order['data'])) ?></td>
                             <td><?php echo $order['total_quantidade'] ?></td>
                             <td class="fw-bold text-success">R$ <?php echo $order['total'] ?></td>
-                            <td><a href="sale-detail.php" class="btn btn-primary">Detalhes</a></td>
+                            <td>
+                                <form action="order-detail.php" method="GET">
+                                    <input type="hidden" name="id" value="<?php echo $order['id'] ?>">
+                                    <button type="submit" class="btn btn-primary">Detalhes</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                     <?php if ($filter_by == 'carta') foreach ($cards as $card) : ?>
