@@ -8,11 +8,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn->begin_transaction();
 
             $sql = "SELECT * FROM usuario WHERE id = $_SESSION[user_id]";
+            $checkout = $_POST['checkout'];
             $result = $conn->query($sql);
             $user = $result->fetch_assoc();
             $endereco_entrega = $user['endereco'] . ', ' . $user['cep'] . ', ' . $user['numero'] . ', ' . $user['bairro'] . ', ' . $user['cidade'] . ', ' . $user['estado'];
 
-            $sql = "INSERT INTO pedido (usuario_id, endereco_entrega, total, id_forma_pagamento) VALUES ($user[id], '$endereco_entrega', $total, 1)";
+            $sql = "INSERT INTO pedido (usuario_id, endereco_entrega, total, forma_pagamento_id) VALUES ($user[id], '$endereco_entrega', $total, $checkout)";
             $conn->query($sql);
             $pedido_id = $conn->insert_id;
 
