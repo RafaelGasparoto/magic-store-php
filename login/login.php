@@ -52,6 +52,24 @@ require "do_login.php"
                                 <a href="user-register.php" class="text-decoration-none">Cadastre-se aqui</a>
                             </p>
                         </form>
+
+                        <p class="text-center mt-5">Para Testes</p>
+                        <div class="row">
+                            <div class="col">
+                            <form action="do_login.php" method="POST">
+                                <div class="label">Login Como Cliente:<br></div>
+                                <button type="submit" class="btn btn-dark">Entrar</button>
+                                <input type="hidden" name="role" value="cliente">
+                            </form>
+                            </div>
+                          <div class="col">
+                          <form action="do_login.php" method="POST">
+                                Login Como Vendedor:
+                                <button type="submit" class="btn btn-dark">Entrar</button>
+                                <input type="hidden" name="role" value="vendedor">
+                            </form>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>

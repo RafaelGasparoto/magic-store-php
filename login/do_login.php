@@ -5,6 +5,25 @@ $password_error = '';
 $email_error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    if (isset($_POST['role'])) {
+        $id = $_POST['role'] == 'vendedor' ? 1 : 2;
+        $sql = "SELECT * FROM usuario WHERE id = $id";
+        $result = $conn->query($sql);
+        $user = $result->fetch_assoc();
+        $_SESSION['user_id'] = $user['id'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['name'] = $user['nome'];
+        $_SESSION['permission'] = $user['permissao'];
+
+        if ($_POST['role'] == 'vendedor') {
+            header("Location: ../saller-menu/list-card.php");
+        } else {
+            header("Location: ../home-page.php");
+        }
+        exit();
+    }
+
     $email = $_POST['email'];
     $password = $_POST['password'];
 

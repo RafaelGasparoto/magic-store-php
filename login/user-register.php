@@ -20,11 +20,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $permission = 1;
         $stmt->bind_param("sssisisssss", $_POST['name'], $_POST['address'], $_POST['cep'], $_POST['number'], $_POST['email'], $permission, $_POST['cpf'], $password_hash, $_POST['city'], $_POST['district'], $_POST['state']);
 
-
         try {
             $stmt->execute();
             $register_success = "Usuário cadastrado com sucesso!";
-            $_POST = array();
         } catch (mysqli_sql_exception $e) {
             if ($e->getCode() == 1062) {
                 if (strpos($e->getMessage(), 'cpf') !== false) {
